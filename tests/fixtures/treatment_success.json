@@ -1,0 +1,35 @@
+{
+  "PatNum": 12345,
+  "procedures": [
+    {
+      "ProcNum": 101,
+      "ProcCode": "D0120",
+      "ProcDate": "2025-01-15",
+      "ProcFee": 150.00,
+      "ProcStatus": "C",
+      "ToothNum": "8",
+      "Surf": "",
+      "Note": "Periodic oral evaluation"
+    },
+    {
+      "ProcNum": 102,
+      "ProcCode": "D1110",
+      "ProcDate": "2025-01-15",
+      "ProcFee": 95.00,
+      "ProcStatus": "C",
+      "ToothNum": "",
+      "Surf": "",
+      "Note": "Prophylaxis - adult"
+    },
+    {
+      "ProcNum": 103,
+      "ProcCode": "D0274",
+      "ProcDate": "2024-11-20",
+      "ProcFee": 85.00,
+      "ProcStatus": "C",
+      "ToothNum": "",
+      "Surf": "",
+      "Note": "Bitewing radiographs - four films"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+﻿Target,Permission,Method,Endpoint,Parameter,Example Output,Fields Needed,Additional Notes
+Procedure Codes,Read All,ProcedureLogs GET,https://api.opendental.com/api/v1/procedurelogs,{AptNum},"    ""ProcCode"": ""D0220"",
+    ""Descript"": ""intraoral - periapical first radiographic image"",
+    ""ProcFee"": ""31.00"",
+    ""ProcStatus"": ""TP""","""ProcCode""",
+Allergies,Read All,Allergies GET,https://api.opendental.com/api/v1/allergies,{PatNum},"  ""AllergyNum"": 2961,
+        ""AllergyDefNum"": 11,
+        ""PatNum"": 39689,
+        ""defDescription"": ""Environmental Allergies"",
+        ""defSnomedType"": ""None"",
+        ""Reaction"": ""Reaction"",
+        ""StatusIsActive"": ""true"",
+        ""DateAdverseReaction"": ""0001-01-01""","""defDescription""
+""Reaction""
+""StatusisActive""",
+Medications,Read All,MedicationPats GET,https://api.opendental.com/api/v1/medicationpats,{PatNum},"""MedicationPatNum"": 6537,
+        ""PatNum"": 39689,
+        ""medName"": ""Antibiotic "",
+        ""MedicationNum"": 121,
+        ""PatNote"": ""Notes"",
+        ""DateStart"": ""0001-01-01"",
+        ""DateStop"": ""0001-01-01"",
+        ""ProvNum"": 0","""medName""
+""PatNote""",Inactive Medications are not returned
+Problems,Read All,Diseases GET,https://api.opendental.com/api/v1/diseases,{PatNum}," ""DiseaseNum"": 4811,
+        ""PatNum"": 39689,
+        ""DiseaseDefNum"": 92,
+        ""diseaseDefName"": ""Anemic"",
+        ""PatNote"": ""dsasad"",
+        ""ProbStatus"": ""Active"",
+        ""DateStart"": ""0001-01-01"",
+        ""DateStop"": ""0001-01-01""","""diseaseDefName""
+""PatNote""
+""ProbStatus""",
+Medical Info,Read All,PatientNotes GET,https://api.opendental.com/api/v1/patientnotes,{PatNum},"   ""PatNum"": 39689,
+    ""FamFinancial"": """",
+    ""Medical"": """",
+    ""Service"": """",
+    ""MedicalComp"": ""Medical History"",
+    ""Treatment"": """",
+    ""ICEName"": """",
+    ""ICEPhone"": """",
+    ""SecDateTEntry"": ""2025-11-28 15:20:51"",
+    ""SecDateTEdit"": ""2025-11-28 15:43:31""","""MedicalComp""",PatNum is required to be in the URL
+Vital Signs,Queries,Queries PUT ShortQuery,https://api.opendental.com/api/v1/queries/ShortQuery,{AptNum},"    ""DateTaken"": ""2025-11-11T00:00:00"",
+        ""Pulse"": 122,
+        ""BP"": ""123/321"",
+        ""Height"": 231.0,
+        ""Weight"": 98.0","""Pulse""
+""BP""
+""Height""
+""Weight""",BMI calculation needed: (Weight/Height^2)*703
+,,,,,,,

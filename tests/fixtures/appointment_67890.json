@@ -1,0 +1,12 @@
+{
+  "AptNum": 67890,
+  "PatNum": 12345,
+  "AptDateTime": "2025-11-29T14:30:00Z",
+  "AptStatus": "scheduled",
+  "ProvNum": 5,
+  "ProvName": "Dr. Sarah Smith",
+  "ClinicNum": 1,
+  "Op": "Op 3",
+  "Pattern": "XXXX",
+  "Note": "Regular checkup and cleaning"
+}
