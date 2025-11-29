@@ -1,0 +1,114 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opendental-audit-cli"
+version = "0.1.0"
+description = "HIPAA-compliant CLI tool for retrieving OpenDental audit data"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "OpenDental Audit Team", email = "audit@example.com"}
+]
+keywords = ["opendental", "audit", "cli", "hipaa", "healthcare"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Healthcare Industry",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "pydantic>=2.5.0,<3.0.0",
+    "httpx>=0.25.0,<1.0.0",
+    "keyring>=24.3.0,<25.0.0",
+    "click>=8.1.0,<9.0.0",
+    "rich>=13.7.0,<14.0.0",
+    "structlog>=23.2.0,<24.0.0",
+    "tenacity>=8.2.0,<9.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0,<8.0.0",
+    "pytest-asyncio>=0.21.0,<1.0.0",
+    "pytest-cov>=4.1.0,<5.0.0",
+    "respx>=0.20.0,<1.0.0",
+    "faker>=20.1.0,<21.0.0",
+    "radon>=6.0.0,<7.0.0",
+]
+
+[project.scripts]
+opendental-cli = "opendental_cli.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/opendental/audit-cli"
+Documentation = "https://github.com/opendental/audit-cli#readme"
+Repository = "https://github.com/opendental/audit-cli"
+Issues = "https://github.com/opendental/audit-cli/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+minversion = "7.4"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=opendental_cli",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-fail-under=90",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "contract: Contract tests for API client",
+]
+
+[tool.coverage.run]
+source = ["src/opendental_cli"]
+omit = [
+    "*/tests/*",
+    "*/__main__.py",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+[tool.coverage.paths]
+source = ["src/opendental_cli"]
+
+# Enforce 100% coverage for security-critical modules
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100

@@ -1,0 +1,18 @@
+{
+  "PatNum": 12345,
+  "statements": [
+    {
+      "StatementNum": 501,
+      "DateSent": "2025-01-20",
+      "Balance": 245.00,
+      "IsSent": true
+    },
+    {
+      "StatementNum": 502,
+      "DateSent": "2025-02-20",
+      "Balance": 100.00,
+      "IsSent": true
+    }
+  ],
+  "current_balance": 100.00
+}

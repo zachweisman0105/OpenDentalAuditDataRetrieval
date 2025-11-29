@@ -1,0 +1,29 @@
+{
+  "PatNum": 12345,
+  "notes": [
+    {
+      "ProgNoteNum": 801,
+      "NoteDateTime": "2025-01-15T14:45:00Z",
+      "ProvNum": 5,
+      "Note": "Patient presented for scheduled cleaning. No issues reported. Recommended continuing regular 6-month checkups."
+    },
+    {
+      "ProgNoteNum": 802,
+      "NoteDateTime": "2024-07-10T09:15:00Z",
+      "ProvNum": 5,
+      "Note": "Patient reports mild sensitivity. Examination revealed no cavities. Applied fluoride treatment."
+    },
+    {
+      "ProgNoteNum": 803,
+      "NoteDateTime": "2024-01-12T10:30:00Z",
+      "ProvNum": 5,
+      "Note": "Annual checkup. All healthy. Patient following good oral hygiene practices."
+    },
+    {
+      "ProgNoteNum": 804,
+      "NoteDateTime": "2023-07-20T15:00:00Z",
+      "ProvNum": 3,
+      "Note": "New patient exam. Full mouth series completed. No urgent treatment needed."
+    }
+  ]
+}

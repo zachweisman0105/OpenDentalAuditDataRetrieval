@@ -1,0 +1,19 @@
+{
+  "PatNum": 12345,
+  "claims": [
+    {
+      "ClaimNum": 701,
+      "DateService": "2025-01-15",
+      "ClaimFee": 245.00,
+      "InsPayEst": 195.00,
+      "ClaimStatus": "Sent"
+    },
+    {
+      "ClaimNum": 702,
+      "DateService": "2024-12-10",
+      "ClaimFee": 450.00,
+      "InsPayEst": 360.00,
+      "ClaimStatus": "Received"
+    }
+  ]
+}
