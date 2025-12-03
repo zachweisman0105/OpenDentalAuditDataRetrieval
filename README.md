@@ -32,16 +32,32 @@ pip install -e ".[dev]"
 
 ## Quick Start
 
-### 1. Configure Credentials
+### 1. Set Up Master Password
+
+**IMPORTANT**: You must create a master password before storing credentials. This password protects all stored credentials.
 
 ```bash
-# Interactive credential setup (stores in OS keyring)
+# Create master password (required first step)
+opendental-cli config set-password
+
+# Follow prompts:
+# Enter new master password: ************
+# Confirm master password: ************
+```
+
+⚠️ **IMPORTANT**: Remember this password! If forgotten, you will need to reset and reconfigure all credentials.
+
+### 2. Configure Credentials
+
+```bash
+# Interactive credential setup (stores in OS keyring with password encryption)
 opendental-cli config set-credentials
 
 # Follow prompts:
 # Enter OpenDental API Base URL: https://example.opendental.com/api/v1
 # Enter Developer Key: your-developer-key-here
 # Enter Customer Key: your-customer-key-here
+# Enter master password to encrypt credentials: ************
 # Select environment (production/staging/dev): production
 ```
 
@@ -58,11 +74,12 @@ $env:OPENDENTAL_DEVELOPER_KEY="your-developer-key-here"
 $env:OPENDENTAL_CUSTOMER_KEY="your-customer-key-here"
 ```
 
-### 2. Retrieve Audit Data
+### 3. Retrieve Audit Data
 
 ```bash
-# Output to stdout (JSON)
+# Output to stdout (JSON) - will prompt for password
 opendental-cli --patnum 12345 --aptnum 67890
+# Enter master password: ************
 
 # Save to file (with restrictive 600 permissions)
 opendental-cli --patnum 12345 --aptnum 67890 --output audit_data.json
@@ -70,6 +87,58 @@ opendental-cli --patnum 12345 --aptnum 67890 --output audit_data.json
 # Redact PHI for debugging/support
 opendental-cli --patnum 12345 --aptnum 67890 --redact-phi --output redacted.json
 ```
+
+**Security Note**: You will be prompted for your master password each time you run the retrieval command. This ensures credentials cannot be accessed without password verification.
+
+## Authentication
+
+### OpenDental FHIR Authorization Format
+
+This CLI uses the OpenDental FHIR API authentication scheme (**ODFHIR**). Authentication requires two keys combined into a single Authorization header:
+
+```http
+Authorization: ODFHIR {DeveloperKey}/{DeveloperPortalKey}
+```
+
+**Example**:
+```http
+Authorization: ODFHIR abc123def456/xyz789portal
+```
+
+### Obtaining Credentials
+
+1. **Developer Key**: Obtain from the OpenDental Developer Portal
+   - Log into the OpenDental Developer Portal
+   - Navigate to API Credentials section
+   - Generate or copy your Developer Key
+
+2. **Developer Portal Key**: Customer-specific authentication key
+   - Also available in the OpenDental Developer Portal
+   - This is the second part of the ODFHIR authorization
+   - Previously may have been called "Customer Key"
+
+### Credential Storage
+
+Credentials are stored securely in your operating system's native keyring:
+- **Windows**: Windows Credential Manager
+- **macOS**: macOS Keychain
+- **Linux**: GNOME Keyring, KWallet, or Secret Service
+
+All stored credentials are encrypted with your master password and use `SecretStr` types to prevent accidental logging or exposure.
+
+### Security Best Practices
+
+✅ **DO**:
+- Use the keyring-based credential storage (recommended)
+- Create a strong master password
+- Keep your master password secure and private
+- Rotate your API credentials periodically
+
+❌ **DON'T**:
+- Share your master password
+- Store credentials in plain text files
+- Use weak or easily guessable passwords
+- Commit credentials to version control
 
 ## Usage
 
@@ -87,11 +156,27 @@ Options:
   --help              Show this message and exit
 ```
 
-### Subcommands
+### Password Management Subcommands
 
 ```bash
-# Credential management
+# Set up master password (first-time setup)
+opendental-cli config set-password
+
+# Change existing master password
+opendental-cli config change-password
+
+# Reset master password (WARNING: requires credential reconfiguration)
+opendental-cli config reset-password
+```
+
+### Credential Management Subcommands
+
+```bash
+# Set/update API credentials (requires master password)
 opendental-cli config set-credentials
+
+# Set credentials for specific environment
+opendental-cli config set-credentials --environment staging
 ```
 
 ### Exit Codes

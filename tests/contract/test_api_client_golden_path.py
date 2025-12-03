@@ -58,6 +58,14 @@ async def test_fetch_procedure_logs_golden_path(api_credential, fixtures_dir):
         assert response.data == procedure_logs_data
         assert response.error_message is None
         assert route.called
+        
+        # Verify Authorization header with ODFHIR format
+        request = route.calls.last.request
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"].startswith("ODFHIR ")
+        assert "/" in request.headers["Authorization"]
+        assert "test_developer_key_12345" in request.headers["Authorization"]
+        assert "test_customer_key_12345" in request.headers["Authorization"]
     finally:
         await client.close()
 
@@ -81,6 +89,12 @@ async def test_fetch_allergies_golden_path(api_credential, fixtures_dir):
         assert response.endpoint_name == "allergies"
         assert response.data == allergies_data
         assert route.called
+        
+        # Verify Authorization header with ODFHIR format
+        request = route.calls.last.request
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"].startswith("ODFHIR ")
+        assert "/" in request.headers["Authorization"]
     finally:
         await client.close()
 
@@ -104,6 +118,11 @@ async def test_fetch_medications_golden_path(api_credential, fixtures_dir):
         assert response.endpoint_name == "medicationpats"
         assert response.data == medications_data
         assert route.called
+        
+        # Verify Authorization header with ODFHIR format
+        request = route.calls.last.request
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"].startswith("ODFHIR ")
     finally:
         await client.close()
 
@@ -127,6 +146,11 @@ async def test_fetch_problems_golden_path(api_credential, fixtures_dir):
         assert response.endpoint_name == "diseases"
         assert response.data == problems_data
         assert route.called
+        
+        # Verify Authorization header with ODFHIR format
+        request = route.calls.last.request
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"].startswith("ODFHIR ")
     finally:
         await client.close()
 
@@ -150,6 +174,11 @@ async def test_fetch_patient_notes_golden_path(api_credential, fixtures_dir):
         assert response.endpoint_name == "patientnotes"
         assert response.data == patient_notes_data
         assert route.called
+        
+        # Verify Authorization header with ODFHIR format
+        request = route.calls.last.request
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"].startswith("ODFHIR ")
     finally:
         await client.close()
 
@@ -173,6 +202,11 @@ async def test_fetch_vital_signs_golden_path(api_credential, fixtures_dir):
         assert response.endpoint_name == "vital_signs"
         assert response.data == vital_signs_data
         assert route.called
+        
+        # Verify Authorization header with ODFHIR format
+        request = route.calls.last.request
+        assert "Authorization" in request.headers
+        assert request.headers["Authorization"].startswith("ODFHIR ")
     finally:
         await client.close()
 

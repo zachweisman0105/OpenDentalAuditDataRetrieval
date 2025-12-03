@@ -7,12 +7,27 @@
 ## Base Configuration
 
 **Base URL**: `https://{server}/api/v1/`  
-**Authentication**: Custom Headers  
-**Headers**: 
-- `DeveloperKey: {developer_key}`
-- `CustomerKey: {customer_key}`
+**Authentication**: ODFHIR Format  
+**Authorization Header**: `Authorization: ODFHIR {DeveloperKey}/{DeveloperPortalKey}`  
 **Content-Type**: `application/json`  
 **TLS Version**: 1.2+  
+
+### Authentication Format
+
+OpenDental FHIR API uses the ODFHIR authentication scheme:
+
+```http
+Authorization: ODFHIR {DeveloperKey}/{DeveloperPortalKey}
+```
+
+**Example**:
+```http
+Authorization: ODFHIR abc123def456/xyz789portal
+```
+
+Both keys are required:
+- **Developer Key**: Obtained from OpenDental Developer Portal
+- **Developer Portal Key**: Customer-specific authentication key
 
 ---
 
@@ -26,8 +41,7 @@
 ```http
 GET /api/v1/procedurelogs?AptNum=67890 HTTP/1.1
 Host: example.opendental.com
-DeveloperKey: YOUR_DEVELOPER_KEY
-CustomerKey: YOUR_CUSTOMER_KEY
+Authorization: ODFHIR YOUR_DEVELOPER_KEY/YOUR_DEVELOPER_PORTAL_KEY
 Accept: application/json
 ```
 
@@ -95,8 +109,7 @@ Accept: application/json
 ```http
 GET /api/v1/allergies?PatNum=12345 HTTP/1.1
 Host: example.opendental.com
-DeveloperKey: YOUR_DEVELOPER_KEY
-CustomerKey: YOUR_CUSTOMER_KEY
+Authorization: ODFHIR YOUR_DEVELOPER_KEY/YOUR_DEVELOPER_PORTAL_KEY
 Accept: application/json
 ```
 
@@ -174,8 +187,7 @@ Accept: application/json
 ```http
 GET /api/v1/medicationpats?PatNum=12345 HTTP/1.1
 Host: example.opendental.com
-DeveloperKey: YOUR_DEVELOPER_KEY
-CustomerKey: YOUR_CUSTOMER_KEY
+Authorization: ODFHIR YOUR_DEVELOPER_KEY/YOUR_DEVELOPER_PORTAL_KEY
 Accept: application/json
 ```
 
@@ -251,8 +263,7 @@ Accept: application/json
 ```http
 GET /api/v1/diseases?PatNum=12345 HTTP/1.1
 Host: example.opendental.com
-DeveloperKey: YOUR_DEVELOPER_KEY
-CustomerKey: YOUR_CUSTOMER_KEY
+Authorization: ODFHIR YOUR_DEVELOPER_KEY/YOUR_DEVELOPER_PORTAL_KEY
 Accept: application/json
 ```
 
@@ -330,8 +341,7 @@ Accept: application/json
 ```http
 GET /api/v1/patientnotes/12345 HTTP/1.1
 Host: example.opendental.com
-DeveloperKey: YOUR_DEVELOPER_KEY
-CustomerKey: YOUR_CUSTOMER_KEY
+Authorization: ODFHIR YOUR_DEVELOPER_KEY/YOUR_DEVELOPER_PORTAL_KEY
 Accept: application/json
 ```
 
@@ -396,8 +406,7 @@ Accept: application/json
 ```http
 PUT /api/v1/queries/ShortQuery HTTP/1.1
 Host: example.opendental.com
-DeveloperKey: YOUR_DEVELOPER_KEY
-CustomerKey: YOUR_CUSTOMER_KEY
+Authorization: ODFHIR YOUR_DEVELOPER_KEY/YOUR_DEVELOPER_PORTAL_KEY
 Content-Type: application/json
 Accept: application/json
 ```

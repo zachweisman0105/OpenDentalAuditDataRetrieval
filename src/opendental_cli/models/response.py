@@ -14,7 +14,9 @@ class EndpointResponse(BaseModel):
     endpoint_name: str = Field(description="Endpoint identifier (e.g., 'patient', 'appointment')")
     http_status: int = Field(description="HTTP status code (200, 404, 500, etc.)")
     success: bool = Field(description="Whether request succeeded")
-    data: dict[str, Any] | None = Field(None, description="Parsed JSON response (None if failed)")
+    data: dict[str, Any] | list[dict[str, Any]] | None = Field(
+        None, description="Parsed JSON response - dict for single resource, list for collections (None if failed)"
+    )
     error_message: str | None = Field(None, description="Error description (non-PHI)")
     timestamp: datetime = Field(
         default_factory=lambda: datetime.utcnow(), description="Response timestamp (UTC)"
@@ -34,8 +36,8 @@ class ConsolidatedAuditData(BaseModel):
     """Consolidated audit data from multiple endpoints."""
 
     request: AuditDataRequest = Field(description="Original request parameters")
-    success: dict[str, dict[str, Any]] = Field(
-        default_factory=dict, description="Successful endpoint responses"
+    success: dict[str, dict[str, Any] | list[dict[str, Any]]] = Field(
+        default_factory=dict, description="Successful endpoint responses - dict for single resource, list for collections"
     )
     failures: list[dict[str, str]] = Field(
         default_factory=list, description="Failed endpoint details"

@@ -170,10 +170,12 @@ class TestCheckCredentialsExist:
 
         assert result is True
 
-    @patch("opendental_cli.credential_manager.get_credentials")
-    def test_returns_false_when_credentials_not_found(self, mock_get_credentials):
+    @patch("opendental_cli.credential_manager._get_from_env")
+    @patch("opendental_cli.credential_manager._get_from_keyring")
+    def test_returns_false_when_credentials_not_found(self, mock_keyring, mock_env):
         """Test returns False when credentials not found."""
-        mock_get_credentials.side_effect = CredentialNotFoundError("Not found")
+        mock_keyring.return_value = None  # Keyring empty
+        mock_env.return_value = None  # Env vars empty
 
         result = check_credentials_exist("production")
 

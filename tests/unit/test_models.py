@@ -4,7 +4,9 @@ Tests generic data models that accept flexible API response data.
 """
 
 import pytest
+from pydantic import SecretStr
 
+from opendental_cli.models.credential import APICredential
 from opendental_cli.models.opendental import (
     AllergiesResponse,
     DiseasesResponse,
@@ -160,3 +162,61 @@ class TestVitalSignsResponse:
         assert bmi > 0
         # BMI = (150 / 70^2) * 703 ≈ 21.5
         assert 21.4 < bmi < 21.6
+
+
+class TestCredentialModel:
+    """Test APICredential model ODFHIR authentication format."""
+
+    def test_credential_get_auth_header_odfhir_format(self):
+        """Test get_auth_header() returns correct ODFHIR format."""
+        credential = APICredential(
+            base_url="https://api.example.com",
+            developer_key=SecretStr("test_dev_key_123"),
+            customer_key=SecretStr("test_portal_key_456"),
+            environment="production",
+        )
+        
+        headers = credential.get_auth_header()
+        
+        # Must return single Authorization header
+        assert "Authorization" in headers
+        assert len(headers) == 1
+        
+        # Must use ODFHIR format
+        assert headers["Authorization"] == "ODFHIR test_dev_key_123/test_portal_key_456"
+        assert headers["Authorization"].startswith("ODFHIR ")
+        assert "/" in headers["Authorization"]
+
+    def test_credential_get_auth_header_uses_secret_values(self):
+        """Test get_auth_header() properly unwraps SecretStr values."""
+        credential = APICredential(
+            base_url="https://api.example.com",
+            developer_key=SecretStr("secret_dev"),
+            customer_key=SecretStr("secret_portal"),
+            environment="production",
+        )
+        
+        headers = credential.get_auth_header()
+        
+        # Verify SecretStr values are unwrapped
+        assert "secret_dev" in headers["Authorization"]
+        assert "secret_portal" in headers["Authorization"]
+        assert headers["Authorization"] == "ODFHIR secret_dev/secret_portal"
+
+    def test_credential_get_auth_header_no_custom_headers(self):
+        """Test get_auth_header() does NOT return custom DeveloperKey/CustomerKey headers."""
+        credential = APICredential(
+            base_url="https://api.example.com",
+            developer_key=SecretStr("key1"),
+            customer_key=SecretStr("key2"),
+            environment="production",
+        )
+        
+        headers = credential.get_auth_header()
+        
+        # Must NOT contain old custom headers
+        assert "DeveloperKey" not in headers
+        assert "CustomerKey" not in headers
+        
+        # Must ONLY contain Authorization header
+        assert list(headers.keys()) == ["Authorization"]

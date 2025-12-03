@@ -104,11 +104,17 @@ def check_credentials_exist(environment: str = "production") -> bool:
     Returns:
         True if credentials exist, False otherwise
     """
+    # Check keyring first (without password verification)
     try:
-        get_credentials(environment)
-        return True
-    except CredentialNotFoundError:
-        return False
+        credentials = _get_from_keyring(environment)
+        if credentials:
+            return True
+    except (KeyringError, NoKeyringError):
+        pass
+    
+    # Check environment variables
+    credentials = _get_from_env()
+    return credentials is not None
 
 
 def _get_from_keyring(environment: Optional[str]) -> Optional[APICredential]:

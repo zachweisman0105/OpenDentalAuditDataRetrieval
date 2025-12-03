@@ -65,7 +65,7 @@ def main(ctx: click.Context, patnum: int, aptnum: int, output: str, redact_phi: 
         console.print("[red]Error: PatNum and AptNum must be positive integers[/red]")
         sys.exit(1)
 
-    # Check credentials exist
+    # Get credentials
     try:
         credentials = get_credentials()
     except CredentialNotFoundError as e:
@@ -188,16 +188,17 @@ def set_credentials_cmd(environment: str):
         console.print("[red]Developer Key cannot be empty[/red]")
         sys.exit(1)
 
-    # Prompt for Customer Key (hidden input)
+    # Prompt for Developer Portal Key (hidden input)
+    # Note: This is the second part of the ODFHIR authorization format
     customer_key = Prompt.ask(
-        "[cyan]Enter Customer Key[/cyan]",
+        "[cyan]Enter Developer Portal Key[/cyan]",
         password=True,
     )
 
     if not customer_key:
-        console.print("[red]Customer Key cannot be empty[/red]")
+        console.print("[red]Developer Portal Key cannot be empty[/red]")
         sys.exit(1)
-
+    
     # Store credentials
     try:
         set_credentials(base_url, developer_key, customer_key, environment)
@@ -206,7 +207,6 @@ def set_credentials_cmd(environment: str):
         console.print(f"[green]  Base URL: {base_url}[/green]")
         console.print("\n[cyan]You can now run:[/cyan]")
         console.print("  [cyan]opendental-cli --patnum 12345 --aptnum 67890[/cyan]")
-
     except NoKeyringError as e:
         console.print(f"\n[red]Error: OS keyring is not available[/red]")
         console.print(f"[red]{str(e)}[/red]\n")
@@ -218,7 +218,6 @@ def set_credentials_cmd(environment: str):
         console.print(f"  [cyan]export OPENDENTAL_ENVIRONMENT=\"{environment}\"[/cyan]")
         console.print("\n[yellow]⚠ Warning: Environment variables are less secure than keyring storage[/yellow]")
         sys.exit(1)
-
     except Exception as e:
         console.print(f"\n[red]Error storing credentials: {str(e)}[/red]")
         sys.exit(1)

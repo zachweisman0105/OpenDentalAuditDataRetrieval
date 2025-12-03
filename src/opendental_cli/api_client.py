@@ -345,8 +345,9 @@ class OpenDentalAPIClient:
 
         try:
             # Build query for vital signs
+            # Note: Table and column names may be case-sensitive or have different naming
             query_body = {
-                "Query": f"SELECT DateTaken, Pulse, BP, Height, Weight FROM vitalsign WHERE AptNum={aptnum}"
+                "query": f"SELECT DateTaken, Pulse, BP, Height, Weight FROM vitalsign WHERE AptNum = {aptnum}"
             }
 
             response = await asyncio.wait_for(
