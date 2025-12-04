@@ -331,11 +331,11 @@ class OpenDentalAPIClient:
         """
         return await self.fetch_endpoint("patientnotes", f"/patientnotes/{patnum}")
 
-    async def fetch_vital_signs(self, aptnum: int) -> EndpointResponse:
+    async def fetch_vital_signs(self, patnum: int) -> EndpointResponse:
         """Fetch vital signs via query.
 
         Args:
-            aptnum: Appointment number
+            patnum: Patient number
 
         Returns:
             EndpointResponse with vital signs data
@@ -344,10 +344,12 @@ class OpenDentalAPIClient:
         start_time = time.time()
 
         try:
-            # Build query for vital signs
-            # Note: Table and column names may be case-sensitive or have different naming
+            # Build query for vital signs  
+            # Note: OpenDental API expects "SqlCommand" field name per official documentation
+            # Vital signs are associated with patients (PatNum), not appointments (AptNum)
+            # Note: BP is stored as BpSystolic and BpDiastolic, not as a single "BP" column
             query_body = {
-                "query": f"SELECT DateTaken, Pulse, BP, Height, Weight FROM vitalsign WHERE AptNum = {aptnum}"
+                "SqlCommand": f"SELECT VitalsignNum, PatNum, DateTaken, Pulse, BpSystolic, BpDiastolic, Height, Weight, BMIPercentile FROM vitalsign WHERE PatNum={patnum}"
             }
 
             response = await asyncio.wait_for(

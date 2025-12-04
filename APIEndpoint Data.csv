@@ -42,12 +42,14 @@ Medical Info,Read All,PatientNotes GET,https://api.opendental.com/api/v1/patient
     ""ICEPhone"": """",
     ""SecDateTEntry"": ""2025-11-28 15:20:51"",
     ""SecDateTEdit"": ""2025-11-28 15:43:31""","""MedicalComp""",PatNum is required to be in the URL
-Vital Signs,Queries,Queries PUT ShortQuery,https://api.opendental.com/api/v1/queries/ShortQuery,{AptNum},"    ""DateTaken"": ""2025-11-11T00:00:00"",
+Vital Signs,Queries,Queries PUT ShortQuery,https://api.opendental.com/api/v1/queries/ShortQuery,{PatNum},"    ""DateTaken"": ""2025-11-11T00:00:00"",
         ""Pulse"": 122,
-        ""BP"": ""123/321"",
+        ""BpSystolic"": 123,
+        ""BpDiastolic"": 321,
         ""Height"": 231.0,
         ""Weight"": 98.0","""Pulse""
-""BP""
+""BpSystolic""
+""BpDiastolic""
 ""Height""
-""Weight""",BMI calculation needed: (Weight/Height^2)*703
+""Weight""","BMI calculation needed: (Weight/Height^2)*703. Note: Uses PatNum not AptNum. BP stored as separate BpSystolic and BpDiastolic columns."
 ,,,,,,,

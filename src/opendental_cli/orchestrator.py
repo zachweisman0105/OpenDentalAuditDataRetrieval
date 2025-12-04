@@ -56,7 +56,7 @@ async def orchestrate_retrieval(
             client.fetch_medications(request.patnum),
             client.fetch_problems(request.patnum),
             client.fetch_patient_notes(request.patnum),
-            client.fetch_vital_signs(request.aptnum),
+            client.fetch_vital_signs(request.patnum),
             return_exceptions=True,
         )
 
